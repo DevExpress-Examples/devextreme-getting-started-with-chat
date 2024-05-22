@@ -1,3 +1,33 @@
-<div class="default-style">
-  <dx-button [text]="buttonText" (onClick)="onClick($event)"></dx-button>
-</div>
+<dx-splitter
+  [width]="500"
+  [height]="400"
+  [separatorSize]="5"
+>
+  <dxi-item size="285px">
+    <dx-form
+      id="form"
+      [formData]="employee"
+      (onFieldDataChanged)="onFieldDataChanged($event)"
+    ></dx-form>
+  </dxi-item>
+  <dxi-item>
+    <dx-splitter orientation="vertical" [separatorSize]="5">
+      <dxi-item size="80%">
+        <div *ngFor="let item of output">{{ item }}</div>
+      </dxi-item>
+      <dxi-item [collapsible]="true" minSize="40px">
+        <dx-button
+          text="Clear all entries"
+          (onClick)="resetFormAndOutput()"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item
+        [collapsed]="true"
+        [collapsible]="true"
+        text="All rights are reserved © 2024"
+        maxSize="30px"
+      ></dxi-item>
+    </dx-splitter>
+  </dxi-item>
+</dx-splitter>
+
