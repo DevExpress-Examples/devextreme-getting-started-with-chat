@@ -23,13 +23,14 @@ export class AppComponent {
   employee = { ...this.initialEmployee };
 
   output: string[] = ['Output:'];
-  
+
   suppressFieldChangeEvent = false;
 
   onFieldDataChanged(e: any) {
     if (!this.suppressFieldChangeEvent) {
       this.output.push(e.value);
     }
+    return;
   }
 
   resetFormAndOutput() {
@@ -39,5 +40,6 @@ export class AppComponent {
     setTimeout(() => {
       this.suppressFieldChangeEvent = false;
     }, 0);
+    return;
   }
 }
