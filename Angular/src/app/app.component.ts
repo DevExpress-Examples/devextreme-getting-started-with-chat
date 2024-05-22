@@ -30,7 +30,6 @@ export class AppComponent {
     if (!this.suppressFieldChangeEvent) {
       this.output.push(e.value);
     }
-    return;
   }
 
   resetFormAndOutput() {
@@ -40,6 +39,5 @@ export class AppComponent {
     setTimeout(() => {
       this.suppressFieldChangeEvent = false;
     }, 0);
-    return;
   }
 }
