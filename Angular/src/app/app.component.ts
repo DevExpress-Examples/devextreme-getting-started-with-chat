@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
+
 export class AppComponent {
   initialEmployee = {
     ID: 1,
@@ -20,7 +21,9 @@ export class AppComponent {
   };
 
   employee = { ...this.initialEmployee };
+
   output: string[] = ['Output:'];
+  
   suppressFieldChangeEvent = false;
 
   onFieldDataChanged(e: any) {

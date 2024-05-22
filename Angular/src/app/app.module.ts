@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     DxSplitterModule,
     DxFormModule,
-    DxButtonModule
+    DxButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
