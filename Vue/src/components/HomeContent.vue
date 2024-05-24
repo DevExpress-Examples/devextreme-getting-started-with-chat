@@ -9,7 +9,9 @@
     <DxItem>
       <DxSplitter orientation="vertical" :separator-size="5">
         <DxItem size="80%">
-          <div v-for="item in output" :key="item">{{ item }}</div>
+          <div>
+            <div v-for="(item, index) in output" :key="index">{{ item }}</div>
+          </div>
         </DxItem>
         <DxItem :collapsible="true" minSize="40px">
           <DxButton text="Clear all entries" @click="resetFormAndOutput"></DxButton>
@@ -33,35 +35,34 @@ import DxButton from 'devextreme-vue/button';
 import { DxSplitter, DxItem } from 'devextreme-vue/splitter';
 
 const initialEmployee = {
-      ID: 1,
-      FirstName: 'John',
-      LastName: 'Heart',
-      Position: 'CEO',
-      BirthDate: '1964/03/16',
-      HireDate: '1995/01/15',
-      Notes: 'John has been in the Audio/Video industry since 1990. He has led DevAv as its CEO since 2003.\r\n\r\nWhen not working hard as the CEO, John loves to golf and bowl. He once bowled a perfect game of 300.',
-      Address: '351 S Hill St., Los Angeles, CA',
-      Phone: '360-684-1334',
-      Email: 'jheart@dx-email.com',
-    };
+  ID: 1,
+  FirstName: 'John',
+  LastName: 'Heart',
+  Position: 'CEO',
+  BirthDate: '1964/03/16',
+  HireDate: '1995/01/15',
+  Notes: 'John has been in the Audio/Video industry since 1990. He has led DevAv as its CEO since 2003.\r\n\r\nWhen not working hard as the CEO, John loves to golf and bowl. He once bowled a perfect game of 300.',
+  Address: '351 S Hill St., Los Angeles, CA',
+  Phone: '360-684-1334',
+  Email: 'jheart@dx-email.com',
+};
 
-    let employee = { ...initialEmployee };
-    const output = ref(['Output:']);
-    let suppressFieldChangeEvent = false;
+let employee = ref({ ...initialEmployee });
+const output = ref(['Output:']);
+let suppressFieldChangeEvent = ref(false);
 
-    const onFieldDataChanged = (e) => {
-      if (!suppressFieldChangeEvent) {
-        output.value.push(e.value);
-        console.log(output);
-      }
-    };
+const onFieldDataChanged = (e) => {
+  if (!suppressFieldChangeEvent.value) {
+    output.value.push(e.value);
+  }
+};
 
-    const resetFormAndOutput = () => {
-      suppressFieldChangeEvent = true;
-      employee = { ...initialEmployee };
-      output.value = ['Output:'];
-      setTimeout(() => {
-        suppressFieldChangeEvent = false;
-      }, 0);
-    };
+const resetFormAndOutput = () => {
+  suppressFieldChangeEvent.value = true;
+  employee.value = { ...initialEmployee };
+  output.value = ['Output:'];
+  setTimeout(() => {
+    suppressFieldChangeEvent.value = false;
+  }, 0);
+};
 </script>
