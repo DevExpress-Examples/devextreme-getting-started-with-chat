@@ -17,7 +17,6 @@
           <DxButton text="Clear all entries" @click="resetFormAndOutput"></DxButton>
         </DxItem>
         <DxItem
-          :collapsed="true"
           :collapsible="true"
           text="All rights are reserved © 2024"
           maxSize="30px"
