@@ -65,7 +65,7 @@ const App = () => {
               onClick={resetFormAndOutput}
             />
           </Item>
-          <Item collapsed={true} collapsible={true} text="All rights are reserved © 2024" maxSize="30px" />
+          <Item collapsible={true} text="All rights are reserved © 2024" maxSize="30px" />
         </Splitter>
       </Item>
     </Splitter>
