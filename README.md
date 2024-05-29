@@ -4,7 +4,7 @@
 <!-- default badges end -->
 # DevExtreme Splitter - Getting Started
 
-This repository stores the code examples of the Splitter component for the [Getting Started with Splitter](https://js.devexpress.com/Documentation/Guide/UI_Components/Splitter/Getting_Started_with_Splitter/) tutorial. The created UI component is designed to split a page layout into multiple panes.
+This repository stores code for the following DevExpress tutorial: [Getting Started with DevExtreme Splitter](https://js.devexpress.com/Documentation/Guide/UI_Components/Splitter/Getting_Started_with_Splitter/). The project creates a UI component that splits a page layout into multiple panes.
 
 <div align="center"><img src="./Splitter.png" /></div>
 
