@@ -2,7 +2,7 @@
 
 This repository stores code for the following DevExpress tutorial: [Getting Started with DevExtreme Chat](https://js.devexpress.com/Documentation/Guide/UI_Components/Chat/Getting_Started_with_Chat/). The project creates an interactive interface that allows users to send and receive messages in real time.
 
-<div align="center"><img src="./Chat.png" /></div>
+<div align="center" style="width: 400px;"><img src="./Chat.png" /></div>
 
 ## Files to Review
 
