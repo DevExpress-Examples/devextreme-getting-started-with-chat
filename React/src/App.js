@@ -1,74 +1,67 @@
-import 'devextreme/dist/css/dx.light.css';
-import { useState } from 'react';
-import Form from 'devextreme-react/form';
-import Button from 'devextreme-react/button';
-import Splitter, { Item } from 'devextreme-react/splitter';
+import React, { useCallback, useState } from "react";
+import Chat from "devextreme-react/chat";
+
+const firstUser = {
+  id: "1",
+  name: "User"
+};
+
+const secondUser = {
+  id: "2",
+  name: "Feedback Bot",
+  avatarUrl: "./bot.png"
+};
+
+const initialMessages = [{
+  timestamp: Date.now(),
+  author: secondUser,
+  text: `Hello! We'd love to hear your feedback. Please share your thoughts below!`
+}];
 
 const App = () => {
-  const initialEmployee = {
-    ID: 1,
-    FirstName: 'John',
-    LastName: 'Heart',
-    Position: 'CEO',
-    BirthDate: '1964/03/16',
-    HireDate: '1995/01/15',
-    Notes: 'John has been in the Audio/Video industry since 1990. He has led DevAv as its CEO since 2003.\r\n\r\nWhen not working hard as the CEO, John loves to golf and bowl. He once bowled a perfect game of 300.',
-    Address: '351 S Hill St., Los Angeles, CA',
-    Phone: '360-684-1334',
-    Email: 'jheart@dx-email.com',
-  };
+  const [messages, setMessages] = useState(initialMessages);
+  const [typingUsers, setTypingUsers] = useState([]);
+  const [alerts, setAlerts] = useState([]);
+  const [disabled, setDisabled] = useState(false);
 
-  const [employee, setEmployee] = useState({ ...initialEmployee });
-  const [output, setOutput] = useState(['Output:']);
-  const [suppressFieldChangeEvent, setSuppressFieldChangeEvent] = useState(false);
+  const onMessageEntered = useCallback(({ message }) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
+    setTypingUsers([secondUser]);
+    sendToBackend();
+  }, []);
 
-  const onFieldDataChanged = (e) => {
-    if (!suppressFieldChangeEvent) {
-      setOutput((prevOutput) => [...prevOutput, e.value]);
-    }
-  };
-
-  const resetFormAndOutput = () => {
-    setSuppressFieldChangeEvent(true);
-    setEmployee({ ...initialEmployee });
-    setOutput(['Output:']);
+  const sendToBackend = () => {
     setTimeout(() => {
-      setSuppressFieldChangeEvent(false);
-    }, 0);
+      setTypingUsers([]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          text: "Thanks for helping us improve!",
+          author: secondUser,
+          timestamp: Date.now(),
+        },
+      ]);
+      setAlerts([
+        {
+          id: 1,
+          message: "Session expired",
+        },
+      ]);
+      setDisabled(true);
+    }, 3000);
   };
 
   return (
-    <Splitter
-      id="splitter"
-      width={500}
-      height={400}
-      separatorSize={5}
-    >
-      <Item size="285px">
-        <Form
-          formData={employee}
-          onFieldDataChanged={onFieldDataChanged}
-        />
-      </Item>
-      <Item>
-        <Splitter orientation="vertical" separatorSize={5}>
-          <Item size="80%">
-            <div>
-              {output.map((item, index) => (
-                <div key={index}>{item}</div>
-              ))}
-            </div>
-          </Item>
-          <Item collapsible={true} minSize="40px">
-            <Button
-              text="Clear all entries"
-              onClick={resetFormAndOutput}
-            />
-          </Item>
-          <Item collapsible={true} text="All rights are reserved © 2024" maxSize="30px" />
-        </Splitter>
-      </Item>
-    </Splitter>
+    <Chat
+      disabled={disabled}
+      alerts={alerts}
+      width={400}
+      height={450}
+      user={firstUser}
+      onMessageEntered={onMessageEntered}
+      items={messages}
+      typingUsers={typingUsers}
+    />
   );
 };
 

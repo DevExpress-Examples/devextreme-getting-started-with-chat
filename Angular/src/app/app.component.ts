@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DxChatTypes } from "devextreme-angular/ui/chat";
 
 @Component({
   selector: 'app-root',
@@ -7,37 +8,51 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  initialEmployee = {
-    ID: 1,
-    FirstName: 'John',
-    LastName: 'Heart',
-    Position: 'CEO',
-    BirthDate: '1964/03/16',
-    HireDate: '1995/01/15',
-    Notes: 'John has been in the Audio/Video industry since 1990. He has led DevAv as its CEO since 2003.\r\n\r\nWhen not working hard as the CEO, John loves to golf and bowl. He once bowled a perfect game of 300.',
-    Address: '351 S Hill St., Los Angeles, CA',
-    Phone: '360-684-1334',
-    Email: 'jheart@dx-email.com',
+  firstUser: DxChatTypes.User = {
+    id: "1",
+    name: "User",
   };
+  secondUser: DxChatTypes.User = {
+    id: "2",
+    name: "ChatBack",
+    avatarUrl: "./bot.png",
+  };
+  messages: DxChatTypes.Message[] = [
+    {
+      timestamp: Date.now(),
+      author: this.secondUser,
+      text: `Hello! We'd love to hear your feedback. Please share your thoughts below!`,
+    },
+  ];
+  alerts: DxChatTypes.Alert[] = [];
+  typingUsers: DxChatTypes.User[] = [];
+  disabled: boolean = false;
 
-  employee = { ...this.initialEmployee };
-
-  output: string[] = ['Output:'];
-
-  suppressFieldChangeEvent = false;
-
-  onFieldDataChanged(e: any) {
-    if (!this.suppressFieldChangeEvent) {
-      this.output.push(e.value);
-    }
+  onMessageEntered({ message }) {
+    this.messages = [...this.messages, message];
+    this.typingUsers = [this.secondUser];
+    this.sendToBackend();
   }
 
-  resetFormAndOutput() {
-    this.suppressFieldChangeEvent = true;
-    this.employee = { ...this.initialEmployee };
-    this.output = ['Output:'];
+  sendToBackend() {
     setTimeout(() => {
-      this.suppressFieldChangeEvent = false;
-    }, 0);
+      this.typingUsers = [];
+      this.messages = [
+        ...this.messages,
+        {
+          text: "Thanks for helping us improve!",
+          author: this.secondUser,
+          timestamp: Date.now(),
+        },
+      ];
+      this.alerts = [
+        ...this.alerts,
+        {
+          id: 1,
+          message: "Session expired",
+        },
+      ];
+      this.disabled = true;
+    }, 1000);
   }
 }

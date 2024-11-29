@@ -1,71 +1,50 @@
+const firstUser = {
+  id: "1",
+  name: "User"
+};
+
+const secondUser = {
+  id: "2",
+  name: "Feedback Bot",
+  avatarUrl: "./bot.png"
+};
+
+const initialMessages = [{
+  timestamp: Date.now(),
+  author: secondUser,
+  text: `Hello! We'd love to hear your feedback. Please share your thoughts below!`
+}];
+
+const alert = [{
+  id: 1,
+  message: "Session expired"
+}];
+
 $(() => {
-  const employee = {
-    ID: 1,
-    FirstName: 'John',
-    LastName: 'Heart',
-    Position: 'CEO',
-    BirthDate: '1964/03/16',
-    HireDate: '1995/01/15',
-    Notes:
-          'John has been in the Audio/Video industry since 1990. He has led DevAv as its CEO since 2003.\r\n\r\nWhen not working hard as the CEO, John loves to golf and bowl. He once bowled a perfect game of 300.',
-    Address: '351 S Hill St., Los Angeles, CA',
-    Phone: '360-684-1334',
-    Email: 'jheart@dx-email.com',
-  };
-  const $output = $('<div>Output:</div>');
-  $('#splitter').dxSplitter({
-    width: 500,
-    height: 400,
-    separatorSize: 5,
-    items: [
-      {
-        size: '285px',
-        template() {
-          const $form = $("<div id='form'/>");
-          $form.dxForm({
-            formData: employee,
-            onFieldDataChanged(e) {
-              $output.append(`<div>${e.value}</div>`);
-            },
+  function sendToBackend() {
+      setTimeout(() => {
+          chat.option("typingUsers", []);
+          chat.renderMessage({
+              text: "Thanks for helping us improve!",
+              author: secondUser,
+              timestamp: Date.now()
           });
-          return $form;
-        },
-      },
-      {
-        splitter: {
-          separatorSize: 5,
-          orientation: 'vertical',
-          items: [
-            {
-              size: '80%',
-              template() {
-                return $output;
-              },
-            },
-            {
-              collapsible: true,
-              minSize: '40px',
-              template() {
-                const $button = $('<div/>');
-                $button.dxButton({
-                  text: 'Clear all entries',
-                  onClick() {
-                    $('#form').dxForm('reset');
-                    $output.empty();
-                    $output.append('<div>Output:</div>');
-                  },
-                });
-                return $button;
-              },
-            },
-            {
-              collapsible: true,
-              text: 'All rights are reserved © 2024',
-              maxSize: '30px',
-            },
-          ],
-        },
-      },
-    ],
-  });
+          chat.option("alerts", alert);
+          chat.option("disabled", true);
+      }, 1000);
+  }
+
+  const chat = $("#chat")
+      .dxChat({
+          width: 400,
+          height: 450,
+          user: firstUser,
+          onMessageEntered: ({ component, message }) => {
+              component.renderMessage(message);
+              chat.option("typingUsers", [secondUser]);
+              sendToBackend();
+          },
+          items: initialMessages
+      })
+      .dxChat("instance");
 });
