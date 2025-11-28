@@ -1,3 +1,11 @@
-<div class="default-style">
-  <dx-button [text]="buttonText" (onClick)="onClick($event)"></dx-button>
-</div>
+<dx-chat
+  [disabled]="disabled"
+  [width]="400"
+  [height]="450"
+  [user]="firstUser"
+  [items]="messages"
+  [typingUsers]="typingUsers"
+  (onMessageEntered)="onMessageEntered($event)"
+  [alerts]="alerts"
+>
+</dx-chat>
