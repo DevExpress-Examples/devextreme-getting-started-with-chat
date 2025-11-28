@@ -1,0 +1,49 @@
+@model ASP_NET_Core.Models.ChatViewModel
+
+<h2>Chat - Getting Started</h2>
+
+@(Html.DevExtreme().Chat()
+    .ID("chat")
+    .Width(400)
+    .Height(450)
+    .User(user => user
+        .Id(Model.FirstUser.Id)
+        .Name(Model.FirstUser.Name)
+    )
+    .DataSource(Model.Messages)
+    .OnMessageEntered("onMessageEntered")
+)
+
+<script>
+    const secondUser = {
+      id: '2',
+      name: 'Feedback Bot',
+      avatarUrl: '../../bot.png',
+    };
+
+    const alert = [
+        {
+            id: 1,
+            message: 'Session expired',
+        },
+    ];
+
+
+    function sendToBackend(chatComponent) {
+        setTimeout(() => {
+            chatComponent.option('typingUsers', []);
+            chatComponent.renderMessage({
+                text: 'Thanks for helping us improve!',
+                author: secondUser,
+                timestamp: Date.now(),
+            });
+            chatComponent.option('alerts', alert);
+            chatComponent.option('disabled', true);
+        }, 1000);
+    }
+
+    function onMessageEntered({ component, message }) {
+        component.option('typingUsers', [secondUser]);
+        sendToBackend(component);
+    }
+</script>
