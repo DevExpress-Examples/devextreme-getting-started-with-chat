@@ -1,21 +1,67 @@
 import { Component } from '@angular/core';
-import { ClickEvent } from 'devextreme/ui/button';
+import type { DxChatTypes } from 'devextreme-angular/ui/chat';
+
+interface MessageEnteredEvent {
+  message: DxChatTypes.Message;
+}
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent {
-  title = 'Angular';
+  firstUser: DxChatTypes.User = {
+    id: '1',
+    name: 'User',
+  };
 
-  counter = 0;
+  secondUser: DxChatTypes.User = {
+    id: '2',
+    name: 'Feedback Bot',
+    avatarUrl: 'assets/bot.png',
+  };
 
-  buttonText = 'Click count: 0';
+  messages: DxChatTypes.Message[] = [
+    {
+      timestamp: Date.now(),
+      author: this.secondUser,
+      text: 'Hello! We\'d love to hear your feedback. Please share your thoughts below!',
+    },
+  ];
 
-  onClick(_e: ClickEvent): void {
-    this.counter++;
-    this.buttonText = `Click count: ${this.counter}`;
+  alerts: DxChatTypes.Alert[] = [];
+
+  typingUsers: DxChatTypes.User[] = [];
+
+  disabled = false;
+
+  onMessageEntered({ message }: MessageEnteredEvent): void {
+    this.messages = [...this.messages, message];
+    this.typingUsers = [this.secondUser];
+    this.sendToBackend();
+  }
+
+  sendToBackend(): void {
+    setTimeout(() => {
+      this.typingUsers = [];
+      this.messages = [
+        ...this.messages,
+        {
+          text: 'Thanks for helping us improve!',
+          author: this.secondUser,
+          timestamp: Date.now(),
+        },
+      ];
+      this.alerts = [
+        ...this.alerts,
+        {
+          id: 1,
+          message: 'Session expired',
+        },
+      ];
+      this.disabled = true;
+    }, 1000);
   }
 }
