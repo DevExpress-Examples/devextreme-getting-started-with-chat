@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DxChatModule } from 'devextreme-angular/ui/chat';
 import type { DxChatTypes } from 'devextreme-angular/ui/chat';
 
 interface MessageEnteredEvent {
@@ -7,9 +8,9 @@ interface MessageEnteredEvent {
 
 @Component({
   selector: 'app-root',
+  imports: [DxChatModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
 })
 export class AppComponent {
   firstUser: DxChatTypes.User = {
