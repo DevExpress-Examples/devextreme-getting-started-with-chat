@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DxChatModule } from 'devextreme-angular/ui/chat';
 import type { DxChatTypes } from 'devextreme-angular/ui/chat';
 
@@ -10,6 +10,7 @@ interface MessageEnteredEvent {
   selector: 'app-root',
   imports: [DxChatModule],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
